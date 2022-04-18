@@ -1,12 +1,4 @@
 
-variable "api_p12_file" {
-    type            = string
-    default         = "/home/gerace/Documents/terraform/volterra/f5-amer-ent.volterra.io.api-creds.p12"
-}
-variable "api_url" {
-    type            = string
-    default         = "https://f5-amer-ent.console.ves.volterra.io/api"
-}
 variable "custName" {
     description     = "A string containing the customer name"
     type            = string 
@@ -49,3 +41,5 @@ variable "unhealthy_threshold" {
     type            =  number
     default         = 1
 } 
+
+  
