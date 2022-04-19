@@ -1,21 +1,20 @@
-
 variable "custName" {
     description     = "A string containing the customer name"
     type            = string 
 }
 variable "xcTenant" {
     type            = string 
-    default         = "f5-amer-ent-qyyfhhfj"
+    default         = ""
 }
 variable "demoNameSpace" {
     description     = "A string containing the namespace in the F5 Distributed Cloud Environment"
     type            = string
-    default         = "a-gerace"
+    default         = ""
 }
 variable "disableWAF" {
     description     = "Enable or Disable WAF - default is true"
     type            = bool 
-    default         = true
+    default         = false
 }
 variable "originFQDN" {
     description     = "A string containing the origin FQDN"
@@ -42,4 +41,3 @@ variable "unhealthy_threshold" {
     default         = 1
 } 
 
-  
