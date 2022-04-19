@@ -7,7 +7,13 @@ terraform {
   }
 }
 
+<<<<<<< HEAD
 provider "volterra" {   
+=======
+provider "volterra" {
+    #api_p12_file = var.api_p12_file
+    #url          = var.api_url    
+>>>>>>> b8bf92ce900c3a740ef6cc0c80e34624c439fa65
 }
 
 locals {
@@ -83,7 +89,11 @@ resource "volterra_http_loadbalancer" "http_lb" {
       }
     }
     dynamic "app_firewall" {
+<<<<<<< HEAD
       for_each = var.disableWAF ? [] : tolist([var.custName])
+=======
+      for_each = var.disableWAF ? [] : [1]
+>>>>>>> b8bf92ce900c3a740ef6cc0c80e34624c439fa65
       content {
         name = var.disableWAF ? null : format("%s-app-firewall", var.demoNameSpace)
         namespace =  var.disableWAF ? null :  var.demoNameSpace

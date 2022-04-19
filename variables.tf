@@ -1,4 +1,3 @@
-
 variable "custName" {
     description     = "A string containing the customer name"
     type            = string 
@@ -18,7 +17,7 @@ variable "demoNameSpace" {
 variable "disableWAF" {
     description     = "Enable or Disable WAF - default is true"
     type            = bool 
-    default         = true
+    default         = false
 }
 variable "originFQDN" {
     description     = "A string containing the origin FQDN"
@@ -45,4 +44,3 @@ variable "unhealthy_threshold" {
     default         = 1
 } 
 
-  
