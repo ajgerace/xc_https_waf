@@ -6,6 +6,9 @@ variable "xcTenant" {
     type            = string 
     default         = ""
 }
+variable "demoDomain" {
+    type            = string
+}
 variable "demoNameSpace" {
     description     = "A string containing the namespace in the F5 Distributed Cloud Environment"
     type            = string
