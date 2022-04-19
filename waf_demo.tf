@@ -12,6 +12,10 @@ provider "volterra" {
     #url          = var.api_url    
 }
 
+locals {
+  demoFQDN                  = "${var.custName}.${var.demoDomain}"
+}
+
 resource "volterra_app_firewall" "app_firewall" {
     name                    = format("%s-app-firewall", var.demoNameSpace)
     namespace               = var.demoNameSpace
@@ -66,8 +70,8 @@ resource "volterra_origin_pool" "origin_pool" {
 resource "volterra_http_loadbalancer" "http_lb" {
     name                    = format("%s-https-lb", var.custName)
     namespace               = var.demoNameSpace    
-    description             = format("HTTPS Load balancer without WAF for %s domain", var.originFQDN )
-    domains                 = [format("%s.sa.f5demos.com", var.custName)]
+    description             = format("HTTPS Load balancer for %s domain", var.originFQDN )
+    domains                 = [format("%s", local.demoFQDN)]
     advertise_on_public_default_vip = true
     https_auto_cert {
         add_hsts      = false
