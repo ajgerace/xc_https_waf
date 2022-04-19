@@ -36,5 +36,5 @@ terraform apply -var custName=customer -var originFQDN=www.customer.com -var xcT
 
 ## Create and enable an Application Firewall by setting the variable **disableWAF** to __false__
 ````bash 
-    terraform apply -var custName=customer -var originFQDN=www.customer.com -var xcTenant=<your-tenant-name> -var demoNameSpace=<your-namespace> -var disableWAF=false
+terraform apply -var custName=customer -var originFQDN=www.customer.com -var xcTenant=<your-tenant-name> -var demoNameSpace=<your-namespace> -var disableWAF=false
 ````
