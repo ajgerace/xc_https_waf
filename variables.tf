@@ -5,12 +5,15 @@ variable "custName" {
 }
 variable "xcTenant" {
     type            = string 
-    default         = "f5-amer-ent-qyyfhhfj"
+}
+variable "demoDomain" {
+    description     = "Enter the name of a delegated subdomain to be used by the HTTP load balancer (ex. cloud.example.com): "
+    type            = string
+
 }
 variable "demoNameSpace" {
     description     = "A string containing the namespace in the F5 Distributed Cloud Environment"
     type            = string
-    default         = "a-gerace"
 }
 variable "disableWAF" {
     description     = "Enable or Disable WAF - default is true"

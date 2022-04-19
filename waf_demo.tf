@@ -7,19 +7,12 @@ terraform {
   }
 }
 
-provider "volterra" {
-    api_p12_file = var.api_p12_file
-    url          = var.api_url    
+provider "volterra" {   
 }
 
-locals  {
-  app_firewall_override = {
-      name                          = format("%s-app-firewall", var.demoNameSpace)
-      namespace                     = var.demoNameSpace
-      tenant                        = var.xcTenant 
-  }
+locals {
+  demoFQDN                  = "${var.custName}.${var.demoDomain}"
 }
-
 resource "volterra_app_firewall" "app_firewall" {
     name                    = format("%s-app-firewall", var.demoNameSpace)
     namespace               = var.demoNameSpace
@@ -71,12 +64,12 @@ resource "volterra_origin_pool" "origin_pool" {
     }
 }
 
+
 resource "volterra_http_loadbalancer" "http_lb" {
     name                    = format("%s-https-lb", var.custName)
     namespace               = var.demoNameSpace    
-    count = var.disableWAF ? 1  : 0 
-    description             = format("HTTPS Load balancer without WAF for %s domain", var.originFQDN )
-    domains                 = [format("%s.cloud.myf5demo.com", var.custName)]
+    description             = format("HTTPS Load balancer for %s domain", var.originFQDN )
+    domains                 = [format("%s", local.demoFQDN)]
     advertise_on_public_default_vip = true
     https_auto_cert {
         add_hsts      = false
@@ -89,13 +82,19 @@ resource "volterra_http_loadbalancer" "http_lb" {
           namespace = volterra_origin_pool.origin_pool.namespace
       }
     }
-
-    app_firewall = var.disableWAF ? null : local.app_firewall_override 
+    dynamic "app_firewall" {
+      for_each = var.disableWAF ? [] : tolist([var.custName])
+      content {
+        name = var.disableWAF ? null : format("%s-app-firewall", var.demoNameSpace)
+        namespace =  var.disableWAF ? null :  var.demoNameSpace
+        tenant = var.disableWAF ? null : var.xcTenant 
+      }
+    }
     disable_waf                     = var.disableWAF
-
 
     disable_rate_limit              = true
     round_robin                     = true
     service_policies_from_namespace = true
     no_challenge                    = true    
 }
+
