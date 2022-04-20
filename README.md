@@ -22,19 +22,27 @@ This repository uses HashiCorp's Terraform to deploy an application on to F5 Dis
     * VES_P12_PASSWORD - The password of the P12 file
  
 ````bash
-    export VOLT_API_URL='https://<your-tenant-name>.ves.volterra.io/api'
+    export VOLT_API_URL='https://<your-tenant-name>.console.ves.volterra.io/api'
     export VOLT_API_P12_FILE='/home/ubuntu/myp12file.p12'
     export VES_P12_PASSWORD='password'
 ````
 
-## Run terraform. If you have not updated the variables.tf file with your xcTenant and demoNameSpace, define those variables at the cmd line:
+## Run terraform. 
+If you have not updated the variables.tf file with your xcTenant and demoNameSpace, define those variables at the cmd line:
 ````bash
 terraform init
 terraform plan -var custName=customer -var originFQDN=www.customer.com -var xcTenant=<your-tenant-name> -var demoNameSpace=<your-namespace>
 terraform apply -var custName=customer -var originFQDN=www.customer.com -var xcTenant=<your-tenant-name> -var demoNameSpace=<your-namespace>
 ````
 
-## Create and enable an Application Firewall by setting the variable **disableWAF** to __false__
+## Create and enable an Application Firewall
+Set the variable **disableWAF** to __false__
 ````bash 
 terraform apply -var custName=customer -var originFQDN=www.customer.com -var xcTenant=<your-tenant-name> -var demoNameSpace=<your-namespace> -var disableWAF=false
+````
+## Create and enable a Service Policy
+The Service Policy defined will block sources by country
+Set the variable **servicePolicyType** to "custom"
+````bash 
+terraform apply -var custName=customer -var originFQDN=www.customer.com -var xcTenant=<your-tenant-name> -var demoNameSpace=<your-namespace> -var disableWAF=false -var servicePolicyType=custom
 ````
