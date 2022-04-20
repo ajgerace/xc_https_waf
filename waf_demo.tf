@@ -85,7 +85,7 @@ resource "volterra_http_loadbalancer" "http_lb" {
       }
     }
     dynamic "app_firewall" {
-      for_each = var.disableWAF ? [] : tolist([var.custName])
+      for_each = var.disableWAF ? [] : [1]
       content {
         name = var.disableWAF ? null : format("%s-app-firewall", var.demoNameSpace)
         namespace =  var.disableWAF ? null :  var.demoNameSpace
@@ -96,7 +96,20 @@ resource "volterra_http_loadbalancer" "http_lb" {
 
     disable_rate_limit              = true
     round_robin                     = true
-    service_policies_from_namespace = true
+
+    #service policy to apply
+    service_policies_from_namespace = var.servicePolicyType == "namespace" ? true : null
+    no_service_policies             = var.servicePolicyType == "none" ? true : null
+    dynamic "active_service_policies" {
+      for_each = var.servicePolicyType == "custom" ? [1] : []
+      content { 
+        policies {
+          name = format("%s-service-policy", var.custName)
+          namespace =  var.demoNameSpace
+          tenant = var.xcTenant
+        }
+      }
+    }
+    #challenge
     no_challenge                    = true    
 }
-
